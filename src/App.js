@@ -3,6 +3,7 @@ import BoardA from './components/Board';
 import History from './components/History';
 import './styles/root.scss';
 import { calculateWinner } from './helpers';
+import StatusMessageA from './components/StatusMessage';
 
 const App = () => {
   const [history, setHistory] = useState([
@@ -16,10 +17,6 @@ const App = () => {
   console.log('history', history);
 
   const winner = calculateWinner(current.board);
-
-  const message = winner
-    ? `Winner is ${winner}`
-    : `Next Player is ${current.isXNext ? 'X' : 'O'}`;
 
   console.log(winner);
 
@@ -49,7 +46,7 @@ const App = () => {
   return (
     <div className="app">
       <h1>TIC TAC TOE</h1>
-      <h2>{message}</h2>
+      <StatusMessageA winner={winner} current={current} />
       <BoardA board={current.board} handleSquareClicks={handleSquareClicks} />
       <History history={history} moveTo={moveTo} currentMove={currentMove} />
     </div>
