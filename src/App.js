@@ -6,19 +6,15 @@ import { calculateWinner } from './helpers';
 import StatusMessageA from './components/StatusMessage';
 
 const App = () => {
-  const [history, setHistory] = useState([
-    { board: Array(9).fill(null), isXNext: true },
-  ]);
+  const NEW_GAME = [{ board: Array(9).fill(null), isXNext: true }];
+
+  const [history, setHistory] = useState(NEW_GAME);
 
   const [currentMove, setCurrentMove] = useState(0);
 
   const current = history[currentMove];
 
-  console.log('history', history);
-
-  const winner = calculateWinner(current.board);
-
-  console.log(winner);
+  const { winner, winningSquares } = calculateWinner(current.board);
 
   const handleSquareClicks = position => {
     if (current.board[position] || winner) {
@@ -43,11 +39,23 @@ const App = () => {
     setCurrentMove(move);
   };
 
+  const onNewGame = () => {
+    setHistory(NEW_GAME);
+    setCurrentMove(0);
+  };
+
   return (
     <div className="app">
       <h1>TIC TAC TOE</h1>
       <StatusMessageA winner={winner} current={current} />
-      <BoardA board={current.board} handleSquareClicks={handleSquareClicks} />
+      <BoardA
+        board={current.board}
+        handleSquareClicks={handleSquareClicks}
+        winningSquares={winningSquares}
+      />
+      <button type="button" onClick={onNewGame}>
+        Start New Game
+      </button>
       <History history={history} moveTo={moveTo} currentMove={currentMove} />
     </div>
   );
